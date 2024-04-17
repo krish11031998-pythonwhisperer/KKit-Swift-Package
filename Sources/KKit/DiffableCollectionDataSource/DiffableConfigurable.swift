@@ -20,5 +20,9 @@ public extension DiffableConfigurable {
     static var cellName: String { UUID().uuidString }
 }
 
+public extension DiffableConfigurable where Self:UICollectionViewCell {
+    static var cellName: String { Self.name }
+}
+
 public typealias DiffableConfigurableCollectionCell = DiffableConfigurable & UICollectionViewCell
 
