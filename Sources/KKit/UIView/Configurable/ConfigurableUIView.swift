@@ -30,7 +30,7 @@ public typealias ConfigurableUIView = ConfigurableElement & UIView
 public extension ConfigurableElement where Self: UIView {
     static var viewName: String { Self.name }
     
-    static func createContent(with model: Model) -> UIContentConfiguration {
+    static func createContent(with model: Model, insets: NSDirectionalEdgeInsets) -> UIContentConfiguration {
         let view = Self.init()
         view.configure(with: model)
         return UIViewConfiguration(view: view)
