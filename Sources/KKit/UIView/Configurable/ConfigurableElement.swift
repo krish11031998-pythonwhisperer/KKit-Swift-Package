@@ -13,9 +13,8 @@ import UIKit
 public protocol ConfigurableElement {
     associatedtype Model: Hashable
     func configure(with model: Model)
-    static func createContent(with model: Model) -> UIContentConfiguration
+    static func createContent(with model: Model, insets: NSDirectionalEdgeInsets) -> UIContentConfiguration
     static var viewName: String { get }
-    
 }
 // MARK: - UIViewCOnfiguration
 

@@ -154,17 +154,8 @@ public class DiffableCollectionItem<View: ConfigurableView>: DiffableCollectionC
             cell.contentConfiguration = nil
         }
         
-        let content: UIContentConfiguration = View.createContent(with: model)
-        if let hosting = content as? UIHostingConfiguration<View, EmptyView> {
-            cell.contentConfiguration = hosting
-                .margins(.leading, insets.leading)
-                .margins(.trailing, insets.trailing)
-                .margins(.top, insets.top)
-                .margins(.bottom, insets.bottom)
-        } else {
-            cell.contentConfiguration = content
-        }
-        
+        let content: UIContentConfiguration = View.createContent(with: model, insets: insets)
+        cell.contentConfiguration = content
         return cell
     }
     

@@ -42,7 +42,7 @@ public class CollectionCellBuilder<T: ConfigurableElement>: DiffableConfigurable
     }
     
     public func configure(with model: CellModel) {
-        contentConfiguration = T.createContent(with: model.model)
+        contentConfiguration = T.createContent(with: model.model, insets: .zero)
     }
     
     public static var cellName: String { T.viewName }
