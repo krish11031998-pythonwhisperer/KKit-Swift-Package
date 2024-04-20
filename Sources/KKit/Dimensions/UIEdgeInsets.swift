@@ -35,6 +35,6 @@ public extension NSDirectionalEdgeInsets {
     }
     
     func asUIEdgeInsets() -> UIEdgeInsets {
-        return .init(top: top, leading: leading, bottom: bottom, trailing: trailing)
+        return .init(top: top, left: leading, bottom: bottom, right: trailing)
     }
 }

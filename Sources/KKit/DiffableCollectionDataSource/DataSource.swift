@@ -32,13 +32,13 @@ public class DataSource: NSObject, UICollectionViewDelegate, UICollectionViewDat
             section.element.footer?.registerReusableView(collectionView, kind: UICollectionView.elementKindSectionFooter, indexPath: .init(item: 0, section: section.offset))
         }
         
-        datasource = DiffableCollectionDataSource(collectionView: collectionView) { collectionView, indexPath, item in
-            let insets = sections[indexPath.section].cellInsets
+        datasource = DiffableCollectionDataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, item in
+            let insets = self?.sections[indexPath.section].cellInsets ?? .zero
             switch item {
             case .view(let cell):
-                cell.cell(cv: collectionView, indexPath: indexPath, insets: insets)
+                return cell.cell(cv: collectionView, indexPath: indexPath, insets: insets)
             case .item(let item):
-                item.cell(cv: collectionView, indexPath: indexPath, insets: insets)
+                return item.cell(cv: collectionView, indexPath: indexPath, insets: insets)
             }
         }
         
