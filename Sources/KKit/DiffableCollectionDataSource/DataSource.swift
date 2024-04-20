@@ -33,12 +33,12 @@ public class DataSource: NSObject, UICollectionViewDelegate, UICollectionViewDat
         }
         
         datasource = DiffableCollectionDataSource(collectionView: collectionView) { collectionView, indexPath, item in
-            
+            let insets = sections[indexPath.section].cellInsets
             switch item {
             case .view(let cell):
-                cell.cell(cv: collectionView, indexPath: indexPath)
+                cell.cell(cv: collectionView, indexPath: indexPath, insets: insets)
             case .item(let item):
-                item.cell(cv: collectionView, indexPath: indexPath)
+                item.cell(cv: collectionView, indexPath: indexPath, insets: insets)
             }
         }
         

@@ -17,6 +17,10 @@ public extension UIEdgeInsets {
     init(vertical: CGFloat, horizontal: CGFloat) {
         self.init(top: vertical, left: horizontal, bottom: vertical, right: horizontal)
     }
+    
+    func asNSDirectionalEdgeInsets() -> NSDirectionalEdgeInsets {
+        return .init(top: top, leading: left, bottom: bottom, trailing: right)
+    }
 }
 
 //MARK: - NSDirectionEdgeInsets
@@ -28,5 +32,9 @@ public extension NSDirectionalEdgeInsets {
     
     init(vertical: CGFloat, horizontal: CGFloat) {
         self.init(top: vertical, leading: horizontal, bottom: vertical, trailing: horizontal)
+    }
+    
+    func asUIEdgeInsets() -> UIEdgeInsets {
+        return .init(top: top, leading: leading, bottom: bottom, trailing: trailing)
     }
 }

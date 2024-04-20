@@ -17,7 +17,7 @@ public typealias CollectionDiffableSnapshot = NSDiffableDataSourceSnapshot<Int, 
 // MARK: - DynamicCollectionCellProvider
 
 public protocol DiffableCollectionCellProviderType: Hashable, AnyObject {
-    func cell(cv: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell
+    func cell(cv: UICollectionView, indexPath: IndexPath, insets: NSDirectionalEdgeInsets) -> UICollectionViewCell
     func didSelect(cv: UICollectionView, indexPath: IndexPath)
     var asCellItem: DiffableCollectionCellItem { get }
     func register(cv: UICollectionView, registration: inout Set<String>)
@@ -56,13 +56,13 @@ public class DiffableCollectionCell<Cell: DiffableConfigurableCollectionCell>: D
         self.model = model
     }
     
-    public func cell(cv: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    public func cell(cv: UICollectionView, indexPath: IndexPath, insets: NSDirectionalEdgeInsets) -> UICollectionViewCell {
         guard let cell: Cell = cv.dequeueCell(indexPath: indexPath) else {
             let cell = UICollectionViewCell()
             let cellView = Cell()
             cellView.configure(with: model)
             cell.contentView.addSubview(cellView)
-            cellView.fillSuperview()
+            cellView.fillSuperview(inset: insets.asUIEdgeInsets())
             return cell
         }
         cell.configure(with: model)
@@ -102,7 +102,7 @@ public class DiffableCollectionCellView<View: ConfigurableUIView>: DiffableColle
         self.model = model
     }
     
-    public func cell(cv: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    public func cell(cv: UICollectionView, indexPath: IndexPath, insets: NSDirectionalEdgeInsets) -> UICollectionViewCell {
         let cell = cv.dequeueReusableCell(withReuseIdentifier: View.cellName, for: indexPath)
         
         if let cellView = cell.contentView.subviews.first(where: { ($0 as? View) != nil }) as? View {
@@ -113,7 +113,7 @@ public class DiffableCollectionCellView<View: ConfigurableUIView>: DiffableColle
         let cellView = View()
         cellView.configure(with: model)
         cell.contentView.addSubview(cellView)
-        cellView.fillSuperview()
+        cellView.fillSuperview(inset: insets.asUIEdgeInsets())
         return cell
     }
     
@@ -148,12 +148,23 @@ public class DiffableCollectionItem<View: ConfigurableView>: DiffableCollectionC
         self.model = model
     }
     
-    public func cell(cv: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    public func cell(cv: UICollectionView, indexPath: IndexPath, insets: NSDirectionalEdgeInsets) -> UICollectionViewCell {
         let cell = cv.dequeueReusableCell(withReuseIdentifier: cellName, for: indexPath)
         if cell.contentConfiguration != nil {
             cell.contentConfiguration = nil
         }
-        cell.contentConfiguration = View.createContent(with: model)
+        
+        let content: UIContentConfiguration = View.createContent(with: model)
+        if let hosting = content as? UIHostingConfiguration<View, EmptyView> {
+            cell.contentConfiguration = hosting
+                .margins(.leading, insets.leading)
+                .margins(.trailing, insets.trailing)
+                .margins(.top, insets.top)
+                .margins(.bottom, insets.bottom)
+        } else {
+            cell.contentConfiguration = content
+        }
+        
         return cell
     }
     
