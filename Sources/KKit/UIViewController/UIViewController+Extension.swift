@@ -146,4 +146,13 @@ public extension UIViewController {
         else { return self }
         return last
     }
+    
+    
+    // MARK: - TabBarItem
+    
+    @discardableResult
+    func tabBarItem(_ item: MainTabModel) -> Self {
+        self.tabBarItem = item.tabBarItem
+        return self
+    }
 }
