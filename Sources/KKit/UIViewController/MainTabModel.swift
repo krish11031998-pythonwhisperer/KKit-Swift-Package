@@ -8,9 +8,14 @@
 import UIKit
 
 public struct MainTabModel: Equatable {
-    let name: String
-    let iconName: ImageSource
+    public let name: String
+    public let iconName: ImageSource
 
+    public init(name: String, iconName: ImageSource) {
+        self.name = name
+        self.iconName = iconName
+    }
+    
     public static func == (lhs: MainTabModel, rhs: MainTabModel) -> Bool {
         lhs.name == rhs.name
     }
