@@ -24,7 +24,7 @@ public class PresentationController: UIPresentationController {
     }()
     private let dimmingColor: UIColor
     
-    init(style: PresentationStyle, dimmingColor: UIColor, addDimmingView: Bool? = nil, presentedViewController: UIViewController, presentingViewController: UIViewController?, onDismiss: Callback?) {
+    public init(style: PresentationStyle, dimmingColor: UIColor, addDimmingView: Bool? = nil, presentedViewController: UIViewController, presentingViewController: UIViewController?, onDismiss: Callback?) {
         self.addDimmingView = addDimmingView
         self.style = style
         self.onDismiss = onDismiss

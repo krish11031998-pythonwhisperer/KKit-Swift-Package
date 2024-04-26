@@ -15,10 +15,6 @@ public enum PresentationStyle {
     case dynamic
 }
 
-public extension UIViewController {
-     
-}
-
 public extension PresentationStyle {
     func originalFrame(view: UIViewController) -> CGRect {
         switch self {
