@@ -43,12 +43,9 @@ public extension UIView {
         let style = _style ?? defaultBlurStyle
         let blur = UIBlurEffect(style: style)
         let blurView = UIVisualEffectView(effect: blur)
-        let view = UIView()
-        view.addSubview(blurView)
+        self.addSubview(blurView)
         blurView.fillSuperview()
-        
-        view.addSubview(self)
-        self.fillSuperview()
+        sendSubviewToBack(blurView)
     }
     
     func add3DShadow(size: CGSize = .init(width: 1, height: 1),
