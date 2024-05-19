@@ -17,7 +17,7 @@ public class DataSource: NSObject, UICollectionViewDelegate, UICollectionViewDat
     var sections: [DiffableCollectionSection]
     var datasource: DiffableCollectionDataSource!
     private let prefecthIndex: PassthroughSubject<[IndexPath], Never> = .init()
-    private let scrollToEnd: PassthroughSubject<Bool, Never> = .init()
+    private let scrollToEnd: CurrentValueSubject<Bool, Never> = .init(false)
     
     init(sections: [DiffableCollectionSection]) {
         self.sections = sections
@@ -140,7 +140,9 @@ public class DataSource: NSObject, UICollectionViewDelegate, UICollectionViewDat
         if let lastSection = sections.sorted(by: { $0.id > $1.id }).first {
             
             let lastItem = IndexPath(item: lastSection.cells.count - 1, section: sections.count - 1)
-            scrollToEnd.send(indexPaths.contains(where: { $0 == lastItem }))
+            if !scrollToEnd.value {
+                scrollToEnd.send(indexPaths.contains(where: { $0 == lastItem }))
+            }
         }
     }
     

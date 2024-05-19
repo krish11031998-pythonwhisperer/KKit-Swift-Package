@@ -41,7 +41,7 @@ public extension UIView {
     
     func addBlurView(_ _style: UIBlurEffect.Style? = nil) {
         let style = _style ?? defaultBlurStyle
-        let blur = UIBlurEffect(style: style)
+        let blur = UIBlurEffect(style: style)`
         let blurView = UIVisualEffectView(effect: blur)
         self.addSubview(blurView)
         blurView.fillSuperview()
