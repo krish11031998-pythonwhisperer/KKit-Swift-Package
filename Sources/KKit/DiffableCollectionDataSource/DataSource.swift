@@ -152,7 +152,11 @@ public class DataSource: NSObject, UICollectionViewDelegate, UICollectionViewDat
     }
     
     var reachedEnd: AnyPublisher<Bool, Never> {
-        scrollToEnd.eraseToAnyPublisher()
+        prefecthIndex
+            .removeDuplicates()
+            .withLatestFrom(scrollToEnd)
+            .map(\.1)
+            .eraseToAnyPublisher()
     }
 }
 
