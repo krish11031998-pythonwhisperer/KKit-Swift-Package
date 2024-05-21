@@ -39,13 +39,15 @@ public extension UIView {
         userInterface == .light ? .systemThinMaterialLight : .systemUltraThinMaterialDark
     }
     
-    func addBlurView(_ _style: UIBlurEffect.Style? = nil) {
+    @discardableResult
+    func addBlurView(_ _style: UIBlurEffect.Style? = nil) -> UIVisualEffectView {
         let style = _style ?? defaultBlurStyle
         let blur = UIBlurEffect(style: style)
         let blurView = UIVisualEffectView(effect: blur)
         self.addSubview(blurView)
         blurView.fillSuperview()
         sendSubviewToBack(blurView)
+        return blurView
     }
     
     func add3DShadow(size: CGSize = .init(width: 1, height: 1),
