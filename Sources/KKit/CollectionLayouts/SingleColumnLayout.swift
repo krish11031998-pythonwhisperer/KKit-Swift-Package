@@ -16,7 +16,7 @@ public extension NSCollectionLayoutSection {
         
         let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
         
-        group.contentInsets = insets.groupInsets
+        group.edgeSpacing = .init(leading: .fixed(insets.groupInsets.leading), top: .fixed(insets.groupInsets.top), trailing: .fixed(insets.groupInsets.trailing), bottom: .fixed(insets.groupInsets.bottom))
         
         let layoutSection = NSCollectionLayoutSection(group: group)
         
