@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 public extension UIViewController {
     
@@ -30,6 +31,16 @@ public extension UIViewController {
         scrollNavbarAppear.backgroundColor = scrollColor
         
         self.navigationController?.navigationBar.scrollEdgeAppearance = scrollNavbarAppear
+    }
+    
+    // MARK: - SwiftUI + UIViewController
+    
+    @discardableResult
+    func addSwiftUIView<Content: View>(_ view: Content) -> UIView {
+        let hostingVC = UIHostingController(rootView: view)
+        addChild(hostingVC)
+        self.view.addSubview(hostingVC.view)
+        return hostingVC.view
     }
     
     
