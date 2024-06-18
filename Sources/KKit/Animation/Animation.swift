@@ -25,6 +25,7 @@ public enum Animation {
 	case slideInFromTop(from: CGFloat, to:CGFloat = 0, duration: CFTimeInterval = 0.3)
     case slide(_ direction: AnimationDirection, state: AnimationState = .in, additionalOff: CGFloat = 0, duration: CFTimeInterval = 0.3)
     case transformX(by: CGFloat, duration: CFTimeInterval = 0.3)
+    case transformY(by: CGFloat, duration: CFTimeInterval = 0.3)
 
     //MARK: Fade
     case fadeIn(duration: CFTimeInterval = 0.3)
@@ -84,6 +85,11 @@ public extension Animation {
         case .transformX(let to, let duration):
             let animation = CABasicAnimation(keyPath: "position.x")
             animation.toValue = layer.frame.midX + to
+            animation.duration = duration
+            return animation
+        case .transformY(let to, let duration):
+            let animation = CABasicAnimation(keyPath: "position.y")
+            animation.toValue = layer.frame.midY + to
             animation.duration = duration
             return animation
 		case .circularProgress(let from, let to, let duration, let delay):
