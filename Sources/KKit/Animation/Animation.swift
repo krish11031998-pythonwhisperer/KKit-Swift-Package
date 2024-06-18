@@ -157,6 +157,8 @@ public extension Animation {
             return "slide"
         case .transformX:
             return "transformX"
+        case .transformY:
+            return "transformY"
         case .circularProgress:
             return "circularProgress"
         case .lineProgress:
