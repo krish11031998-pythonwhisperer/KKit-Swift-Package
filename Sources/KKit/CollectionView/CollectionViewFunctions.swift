@@ -24,47 +24,40 @@ extension UICollectionView {
 
 // MARK: - UICollectionView+DiffableDataSource
 
-public extension UICollectionView {
-    
+//public extension UICollectionView {
+//    
 //    static var dynamicDataSourceObject: [UICollectionView:DiffableDataSource] = [:]
 //    
 //    var dynamicDataSource: DiffableDataSource? {
 //        get { Self.dynamicDataSourceObject[self] }
 //        set { Self.dynamicDataSourceObject[self] = newValue }
 //    }
-    
-    private static var propertyKey: UInt8 = 1
-    
-    var dynamicDataSource: DiffableDataSource? {
-        get { objc_getAssociatedObject(DiffableDataSource.self, &Self.propertyKey) as? DiffableDataSource }
-        set { objc_setAssociatedObject(DiffableDataSource.self, &Self.propertyKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
-    }
-    
-    var prefetchIndexPath: AnyPublisher<[IndexPath], Never>? {
-        dynamicDataSource?.indexToPrefetch
-    }
-    
-    var reachedEnd: AnyPublisher<Bool, Never>? {
-        dynamicDataSource?.reachedEnd
-    }
-    
-    func reloadWithDynamicSection(sections: [DiffableCollectionSection], completion: Callback? = nil) {
-        
-        if let source = self.dynamicDataSource {
-            source.reloadSections(collection: self, sections, completion: completion)
-            return
-        }
-        
-        self.dynamicDataSource = DiffableDataSource(sections: sections)
-        dynamicDataSource!.initializeDiffableDataSource(with: self, completion: completion)
-    }
-    
-    func reloadItems(_ item: DiffableCollectionCellProvider, section: Int, index: Int, alsoReload: Bool = true) {
-        guard let datasource = dynamicDataSource else  { return }
-        
-        datasource.reloadItems(item, section: section, index: index, alsoReload: alsoReload)
-    }
-}
+//    
+//    var prefetchIndexPath: AnyPublisher<[IndexPath], Never>? {
+//        dynamicDataSource?.indexToPrefetch
+//    }
+//    
+//    var reachedEnd: AnyPublisher<Bool, Never>? {
+//        dynamicDataSource?.reachedEnd
+//    }
+//    
+//    func reloadWithDynamicSection(sections: [DiffableCollectionSection], completion: Callback? = nil) {
+//        
+//        if let source = self.dynamicDataSource {
+//            source.reloadSections(collection: self, sections, completion: completion)
+//            return
+//        }
+//        
+//        self.dynamicDataSource = DiffableDataSource(sections: sections)
+//        dynamicDataSource!.initializeDiffableDataSource(with: self, completion: completion)
+//    }
+//    
+//    func reloadItems(_ item: DiffableCollectionCellProvider, section: Int, index: Int, alsoReload: Bool = true) {
+//        guard let datasource = dynamicDataSource else  { return }
+//        
+//        datasource.reloadItems(item, section: section, index: index, alsoReload: alsoReload)
+//    }
+//}
 
 
 // MARK: - UICollectionView+DataSource
@@ -120,7 +113,7 @@ struct TextView: ConfigurableView {
 
 private class TextCollection: UIViewController {
     
-    private lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: DiffableCollectionView = {
         let layout: UICollectionViewFlowLayout = {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .vertical
@@ -128,17 +121,18 @@ private class TextCollection: UIViewController {
             layout.minimumLineSpacing = 10
             return layout
         }()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView = DiffableCollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let cells = (0...100).map { DiffableCollectionItem<TextView>("\($0)th Cell") }
-        let section = CollectionSection(cells: cells)
+        //let section = CollectionSection(cells: cells)
+        let section = DiffableCollectionSection(0, cells: cells, sectionLayout: .singleColumnLayout(width: .fractionalWidth(1.0), height: .estimated(54)))
         view.addSubview(collectionView)
         collectionView.fillSuperview()
-        self.collectionView.reloadData(section: [section])
+        self.collectionView.reloadWithDynamicSection(sections: [section])
     }
 }
 
