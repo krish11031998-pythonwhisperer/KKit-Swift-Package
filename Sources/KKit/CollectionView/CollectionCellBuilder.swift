@@ -10,7 +10,7 @@ import SwiftUI
 
 // MARK: - CollectionCellBuilder
 
-public class CollectionCellBuilder<T: ConfigurableElement>: DiffableConfigurableCollectionCell {
+public class CollectionCellBuilder<T: ConfigurableElement>: ConfigurableCollectionCell {
     
     public typealias Model = CellModel
     
