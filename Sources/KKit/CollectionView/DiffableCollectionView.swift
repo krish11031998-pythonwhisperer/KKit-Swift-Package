@@ -12,15 +12,15 @@ public class DiffableCollectionView: UICollectionView {
     
     private var dynamicDataSource: DiffableDataSource?
     
-    var prefetchIndexPath: AnyPublisher<[IndexPath], Never>? {
+    public var prefetchIndexPath: AnyPublisher<[IndexPath], Never>? {
         dynamicDataSource?.indexToPrefetch
     }
     
-    var reachedEnd: AnyPublisher<Bool, Never>? {
+    public var reachedEnd: AnyPublisher<Bool, Never>? {
         dynamicDataSource?.reachedEnd
     }
     
-    func reloadWithDynamicSection(sections: [DiffableCollectionSection], completion: Callback? = nil) {
+    public func reloadWithDynamicSection(sections: [DiffableCollectionSection], completion: Callback? = nil) {
         
         if let source = self.dynamicDataSource {
             source.reloadSections(collection: self, sections, completion: completion)
@@ -31,7 +31,7 @@ public class DiffableCollectionView: UICollectionView {
         dynamicDataSource!.initializeDiffableDataSource(with: self, completion: completion)
     }
     
-    func reloadItems(_ item: DiffableCollectionCellProvider, section: Int, index: Int, alsoReload: Bool = true) {
+    public func reloadItems(_ item: DiffableCollectionCellProvider, section: Int, index: Int, alsoReload: Bool = true) {
         guard let datasource = dynamicDataSource else  { return }
         
         datasource.reloadItems(item, section: section, index: index, alsoReload: alsoReload)
