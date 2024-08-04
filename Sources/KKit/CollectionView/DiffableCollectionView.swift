@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class DiffableCollectionView: UICollectionView {
+public class DiffableCollectionView: UICollectionView {
     
     private var dynamicDataSource: DiffableDataSource?
     
