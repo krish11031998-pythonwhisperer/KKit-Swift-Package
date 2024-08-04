@@ -48,7 +48,7 @@ public enum DiffableCollectionCellItem: Hashable {
 
 // MARK: - DiffableCollectionCell
 
-public class DiffableCollectionCell<Cell: DiffableConfigurableCollectionCell>: DiffableCollectionCellProviderType {
+public class DiffableCollectionCell<Cell: ConfigurableCollectionCell>: DiffableCollectionCellProviderType {
     
     var model: Cell.Model
     

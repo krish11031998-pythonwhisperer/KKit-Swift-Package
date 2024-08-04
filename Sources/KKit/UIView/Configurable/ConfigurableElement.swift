@@ -15,8 +15,9 @@ public protocol ConfigurableElement {
     func configure(with model: Model)
     static func createContent(with model: Model) -> UIContentConfiguration
     static var viewName: String { get }
-    
 }
+
+
 // MARK: - UIViewCOnfiguration
 
 extension UIView: UIContentView {

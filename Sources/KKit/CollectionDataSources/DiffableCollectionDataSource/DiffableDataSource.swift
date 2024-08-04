@@ -1,5 +1,5 @@
 //
-//  DataSource.swift
+//  DiffableDataSource.swift
 //  KKit
 //
 //  Created by Krishna Venkatramani on 13/01/2024.
@@ -8,9 +8,9 @@
 import UIKit
 import Combine
 
-// MARK: - DataSource
+// MARK: - DiffableDataSource
 
-public class DataSource: NSObject, UICollectionViewDelegate, UICollectionViewDataSourcePrefetching {
+public class DiffableDataSource: NSObject, UICollectionViewDelegate, UICollectionViewDataSourcePrefetching {
     
     private var cellRegistrations: Set<String> = .init()
     
