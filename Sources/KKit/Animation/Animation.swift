@@ -24,8 +24,8 @@ public enum Animation {
     //MARK: Slide
 	case slideInFromTop(from: CGFloat, to:CGFloat = 0, duration: CFTimeInterval = 0.3)
     case slide(_ direction: AnimationDirection, state: AnimationState = .in, additionalOff: CGFloat = 0, duration: CFTimeInterval = 0.3)
-    case transformX(by: CGFloat, duration: CFTimeInterval = 0.3)
-    case transformY(by: CGFloat, duration: CFTimeInterval = 0.3)
+    case transformX(from: CGFloat? = nil, to: CGFloat, duration: CFTimeInterval = 0.3)
+    case transformY(from: CGFloat? = nil, to: CGFloat, duration: CFTimeInterval = 0.3)
 
     //MARK: Fade
     case fadeIn(duration: CFTimeInterval = 0.3)
@@ -82,14 +82,20 @@ public extension Animation {
             animation.isRemovedOnCompletion = false
             animation.fillMode = .forwards
             return animation
-        case .transformX(let to, let duration):
-            let animation = CABasicAnimation(keyPath: "position.x")
-            animation.toValue = layer.frame.midX + to
+        case .transformX(let from, let to, let duration):
+            let animation = CABasicAnimation(keyPath: "transform.translation.x")
+            if let from {
+                animation.fromValue = from
+            }
+            animation.toValue = to
             animation.duration = duration
             return animation
-        case .transformY(let to, let duration):
-            let animation = CABasicAnimation(keyPath: "position.y")
-            animation.toValue = layer.frame.midY + to
+        case .transformY(let from ,let to, let duration):
+            let animation = CABasicAnimation(keyPath: "transform.translation.y")
+            if let from {
+                animation.fromValue = from
+            }
+            animation.toValue = to
             animation.duration = duration
             return animation
 		case .circularProgress(let from, let to, let duration, let delay):

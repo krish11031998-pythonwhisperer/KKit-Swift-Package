@@ -83,4 +83,8 @@ public extension UIView {
     func animate(_ animation: Animation, removeAfterCompletion: Bool = false, completion: (() -> Void)? = nil) {
         layer.animate(animation, removeAfterCompletion: removeAfterCompletion, completion: completion)
     }
+    
+    func animateMultiple(_ animations: [Animation], removeAfterCompletion: Bool = false, completion: Callback? = nil) {
+        layer.multipleAnimation(animation: animations, removeAfterCompletion: removeAfterCompletion, completion: completion)
+    }
 }
