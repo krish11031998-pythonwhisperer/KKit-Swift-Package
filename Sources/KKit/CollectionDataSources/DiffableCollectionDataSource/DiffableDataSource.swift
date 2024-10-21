@@ -12,6 +12,17 @@ import Combine
 
 public class DiffableDataSource: NSObject, UICollectionViewDelegate, UICollectionViewDataSourcePrefetching {
     
+    
+    // MARK: - DragState
+    
+    public enum DragState {
+        case willBegin
+        case willEnd(velocity: CGPoint, contentOffset: CGPoint)
+        case didEnd
+        case unknown
+    }
+    
+    
     private var cellRegistrations: Set<String> = .init()
     
     var sections: [DiffableCollectionSection]
@@ -19,6 +30,9 @@ public class DiffableDataSource: NSObject, UICollectionViewDelegate, UICollectio
     private let prefecthIndex: PassthroughSubject<[IndexPath], Never> = .init()
     private let scrollToEnd: PassthroughSubject<Bool, Never> = .init()
     
+    @Published private var contentOffset: CGPoint = .zero
+    @Published private var dragState: DragState = .unknown
+
     init(sections: [DiffableCollectionSection]) {
         self.sections = sections
     }
@@ -133,6 +147,23 @@ public class DiffableDataSource: NSObject, UICollectionViewDelegate, UICollectio
         sections[indexPath.section].cells[indexPath.item].didSelect(cv: collectionView, indexPath: indexPath)
     }
     
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.contentOffset = scrollView.contentOffset
+    }
+    
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        dragState = .willBegin
+    }
+    
+    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        dragState = .willEnd(velocity: velocity, contentOffset: targetContentOffset.pointee)
+    }
+    
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        dragState = .didEnd
+    }
+    
+    
     // MARK: - UICollectionViewPrefetchDelegate
     
     public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
@@ -154,5 +185,18 @@ public class DiffableDataSource: NSObject, UICollectionViewDelegate, UICollectio
     var reachedEnd: AnyPublisher<Bool, Never> {
         scrollToEnd.eraseToAnyPublisher()
     }
+    
+    var contentOffsetPublisher: AnyPublisher<CGPoint, Never> {
+        $contentOffset
+            .setFailureType(to: Never.self)
+            .eraseToAnyPublisher()
+    }
+    
+    var dragStatePublisher: AnyPublisher<DragState, Never> {
+        $dragState
+            .setFailureType(to: Never.self)
+            .eraseToAnyPublisher()
+    }
+    
 }
 

@@ -11,6 +11,7 @@ import Combine
 public class DiffableCollectionView: UICollectionView {
     
     private var dynamicDataSource: DiffableDataSource?
+    private var dynamicDataSourceIsSet: PassthroughSubject<Void, Never> = .init()
     
     public var prefetchIndexPath: AnyPublisher<[IndexPath], Never>? {
         dynamicDataSource?.indexToPrefetch
@@ -37,4 +38,18 @@ public class DiffableCollectionView: UICollectionView {
         datasource.reloadItems(item, section: section, index: index, alsoReload: alsoReload)
     }
     
+    
+    // MARK: - ScrollObservers
+    
+    public var contentOffsetPublisher: AnyPublisher<CGPoint, Never> {
+        dynamicDataSource?.contentOffsetPublisher ?? .empty(completeImmediately: true)
+    }
+    
+    public var dragStatePublisher: AnyPublisher<DiffableDataSource.DragState, Never> {
+        dynamicDataSource?.dragStatePublisher ?? .empty(completeImmediately: true)
+    }
+    
+    public var dynamicDataSourceIsSetPublisher: VoidPublisher {
+        dynamicDataSourceIsSet.eraseToAnyPublisher()
+    }
 }
