@@ -190,3 +190,17 @@ public extension Array where Element == Animation {
     
 }
 
+
+@available(iOS 17.0, *)
+#Preview("Transform Y", body: {
+    let view = UIView()
+    view.backgroundColor = .red
+    view.setFrame(.init(squared: 150))
+    view.transform = .init(translationX: 0, y: 20)
+    view.alpha = 0.1
+    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+        view.animateMultiple([.transformY(to: 0), .fadeIn()], removeAfterCompletion: false)
+    }
+    
+    return view
+})

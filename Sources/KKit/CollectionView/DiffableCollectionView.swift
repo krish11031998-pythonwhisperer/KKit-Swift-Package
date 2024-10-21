@@ -30,6 +30,7 @@ public class DiffableCollectionView: UICollectionView {
         
         self.dynamicDataSource = DiffableDataSource(sections: sections)
         dynamicDataSource!.initializeDiffableDataSource(with: self, completion: completion)
+        dynamicDataSourceIsSet.send(())
     }
     
     public func reloadItems(_ item: DiffableCollectionCellProvider, section: Int, index: Int, alsoReload: Bool = true) {
@@ -41,11 +42,11 @@ public class DiffableCollectionView: UICollectionView {
     
     // MARK: - ScrollObservers
     
-    public var contentOffsetPublisher: AnyPublisher<CGPoint, Never> {
+    public var diffableCollectionViewContentOffsetPublisher: AnyPublisher<CGPoint, Never> {
         dynamicDataSource?.contentOffsetPublisher ?? .empty(completeImmediately: true)
     }
     
-    public var dragStatePublisher: AnyPublisher<DiffableDataSource.DragState, Never> {
+    public var diffableCollectionViewDragStatePublisher: AnyPublisher<DiffableDataSource.DragState, Never> {
         dynamicDataSource?.dragStatePublisher ?? .empty(completeImmediately: true)
     }
     
