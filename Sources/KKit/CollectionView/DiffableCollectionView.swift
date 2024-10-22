@@ -13,9 +13,18 @@ public class DiffableCollectionView: UICollectionView {
     private var dynamicDataSource: DiffableDataSource?
     private var dynamicDataSourceIsSet: PassthroughSubject<Void, Never> = .init()
     
+    public override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: layout)
+        self.observer = .init()
+    }
+    
     convenience init() {
         self.init(frame: .zero, collectionViewLayout: .init())
         self.observer = .init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public var prefetchIndexPath: AnyPublisher<[IndexPath], Never>? {
