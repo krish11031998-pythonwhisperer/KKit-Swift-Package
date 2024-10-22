@@ -148,19 +148,23 @@ public class DiffableDataSource: NSObject, UICollectionViewDelegate, UICollectio
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        self.contentOffset = scrollView.contentOffset
+        scrollView.observer?.updateContentOffset(scrollView.contentOffset)
+        //self.contentOffset = scrollView.contentOffset
     }
     
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        dragState = .willBegin
+        scrollView.observer?.updateDragState(.willBegin)
+       // dragState = .willBegin
     }
     
     public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        dragState = .willEnd(velocity: velocity, contentOffset: targetContentOffset.pointee)
+        scrollView.observer?.updateDragState(.willEnd(velocity: velocity, contentOffset: targetContentOffset.pointee))
+        //dragState = .willEnd(velocity: velocity, contentOffset: targetContentOffset.pointee)
     }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        dragState = .didEnd
+        scrollView.observer?.updateDragState(.didEnd)
+        //dragState = .didEnd
     }
     
     

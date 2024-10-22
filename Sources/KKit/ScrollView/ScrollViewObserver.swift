@@ -27,6 +27,9 @@ class ScrollViewObservers: NSObject, UICollectionViewDelegate {
             .eraseToAnyPublisher()
     }
     
+    
+    // MARK: - UIScrollViewDelegate
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print(#function)
         self.contentOffset = scrollView.contentOffset
@@ -47,6 +50,16 @@ class ScrollViewObservers: NSObject, UICollectionViewDelegate {
         dragState = .didEnd
     }
     
+    
+    // MARK: - Update
+    
+    func updateContentOffset(_ offset: CGPoint) {
+        self.contentOffset = offset
+    }
+    
+    func updateDragState(_ state: DragState) {
+        self.dragState = state
+    }
 }
 
 extension UIScrollView {

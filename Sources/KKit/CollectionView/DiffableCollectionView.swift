@@ -13,6 +13,11 @@ public class DiffableCollectionView: UICollectionView {
     private var dynamicDataSource: DiffableDataSource?
     private var dynamicDataSourceIsSet: PassthroughSubject<Void, Never> = .init()
     
+    convenience init() {
+        self.init(frame: .zero, collectionViewLayout: .init())
+        self.observer = .init()
+    }
+    
     public var prefetchIndexPath: AnyPublisher<[IndexPath], Never>? {
         dynamicDataSource?.indexToPrefetch
     }

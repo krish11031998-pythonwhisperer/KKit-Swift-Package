@@ -36,10 +36,16 @@ public extension UIViewController {
     // MARK: - SwiftUI + UIViewController
     
     @discardableResult
-    func addSwiftUIView<Content: View>(_ view: Content) -> UIView {
+    func addSwiftUIView<Content: View>(_ view: Content, insertAbove viewAbove: UIView? = nil, insertBelow viewBelow: UIView? = nil) -> UIView {
         let hostingVC = UIHostingController(rootView: view)
         addChild(hostingVC)
-        self.view.addSubview(hostingVC.view)
+        if let viewAbove {
+            self.view.insertSubview(hostingVC.view, aboveSubview: viewAbove)
+        } else if let viewBelow {
+            self.view.insertSubview(hostingVC.view, belowSubview: viewBelow)
+        } else {
+            self.view.addSubview(hostingVC.view)
+        }
         return hostingVC.view
     }
     
