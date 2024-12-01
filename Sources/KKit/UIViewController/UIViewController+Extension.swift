@@ -46,6 +46,8 @@ public extension UIViewController {
         } else {
             self.view.addSubview(hostingVC.view)
         }
+        hostingVC.didMove(toParent: self)
+        hostingVC.sizingOptions = .intrinsicContentSize
         return hostingVC.view
     }
     
