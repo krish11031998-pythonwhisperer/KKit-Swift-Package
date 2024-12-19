@@ -41,12 +41,9 @@ public extension UIImage {
         let ratio = size.width/size.height
         
         if size.width < size.height {
-            let newHeight = min(size.height, newSize.height)
-            return .init(width: newHeight * ratio, height: newHeight)
-            
+            return .init(width: newSize.width * ratio, height: newSize.height)
         } else {
-            let newWidth = min(size.width, newSize.width)
-            return .init(width: newWidth, height: newWidth/ratio)
+            return .init(width: newSize.width, height: newSize.height/ratio)
         }
     }
     
