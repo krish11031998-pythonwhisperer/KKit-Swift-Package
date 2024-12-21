@@ -77,11 +77,19 @@ public class DiffableDataSource: NSObject, UICollectionViewDelegate, UICollectio
     }
     
     private func setupCollectionViewLayout(newSections: [DiffableCollectionSection]? = nil) -> UICollectionViewCompositionalLayout {
-        return  UICollectionViewCompositionalLayout { [weak self] sectionId, env in
+        let layout =  UICollectionViewCompositionalLayout { [weak self] sectionId, env in
             guard let self else { return nil }
             let section = (newSections ?? sections)[sectionId]
             return section.sectionLayout
         }
+        
+        sections.forEach { section in
+            if let decorationItem = section.decorationItem {
+                decorationItem.register(layout: layout)
+            }
+        }
+        
+        return layout
     }
     
     private func  applySnapshot(animating: Bool = true, completion: Callback? = nil) {

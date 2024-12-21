@@ -17,12 +17,14 @@ public class DiffableCollectionSection: Hashable, Identifiable {
     var sectionLayout: NSCollectionLayoutSection
     var header: (any CollectionSupplementaryViewProvider)?
     var footer: (any CollectionSupplementaryViewProvider)?
+    var decorationItem: (any CollectionDecorationViewProvider)?
     
-    public init(_ id: Int, cells: [DiffableCollectionCellProvider], header: (any CollectionSupplementaryViewProvider)? = nil, footer: (any CollectionSupplementaryViewProvider)? = nil, sectionLayout: NSCollectionLayoutSection) {
+    public init(_ id: Int, cells: [DiffableCollectionCellProvider], header: (any CollectionSupplementaryViewProvider)? = nil, footer: (any CollectionSupplementaryViewProvider)? = nil, decorationItem: (any CollectionDecorationViewProvider)? = nil, sectionLayout: NSCollectionLayoutSection) {
         self.cells = cells
         self.header = header
         self.footer = footer
         self.id = id
+        self.decorationItem = decorationItem
         self.sectionLayout = sectionLayout
     }
     

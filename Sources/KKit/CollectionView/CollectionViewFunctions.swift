@@ -22,43 +22,6 @@ extension UICollectionView {
     }
 }
 
-// MARK: - UICollectionView+DiffableDataSource
-
-//public extension UICollectionView {
-//    
-//    static var dynamicDataSourceObject: [UICollectionView:DiffableDataSource] = [:]
-//    
-//    var dynamicDataSource: DiffableDataSource? {
-//        get { Self.dynamicDataSourceObject[self] }
-//        set { Self.dynamicDataSourceObject[self] = newValue }
-//    }
-//    
-//    var prefetchIndexPath: AnyPublisher<[IndexPath], Never>? {
-//        dynamicDataSource?.indexToPrefetch
-//    }
-//    
-//    var reachedEnd: AnyPublisher<Bool, Never>? {
-//        dynamicDataSource?.reachedEnd
-//    }
-//    
-//    func reloadWithDynamicSection(sections: [DiffableCollectionSection], completion: Callback? = nil) {
-//        
-//        if let source = self.dynamicDataSource {
-//            source.reloadSections(collection: self, sections, completion: completion)
-//            return
-//        }
-//        
-//        self.dynamicDataSource = DiffableDataSource(sections: sections)
-//        dynamicDataSource!.initializeDiffableDataSource(with: self, completion: completion)
-//    }
-//    
-//    func reloadItems(_ item: DiffableCollectionCellProvider, section: Int, index: Int, alsoReload: Bool = true) {
-//        guard let datasource = dynamicDataSource else  { return }
-//        
-//        datasource.reloadItems(item, section: section, index: index, alsoReload: alsoReload)
-//    }
-//}
-
 
 // MARK: - UICollectionView+DataSource
 
