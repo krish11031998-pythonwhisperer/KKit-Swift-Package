@@ -26,7 +26,7 @@ public extension UIView {
     }
     
     
-    // MARK: - Constraint Based
+    // MARK: - Individual Constraints
     
     @discardableResult
     func pinTopAnchorTo(_ view: UIView? = nil, anchor: KeyPath<UIView,YAnchor> = \.topAnchor, constant: CGFloat) -> UIView {
@@ -87,6 +87,95 @@ public extension UIView {
         NSLayoutConstraint.activate([constraint])
         return self
     }
+    
+    
+    // MARK: - Greater Than Constraints
+    
+    @discardableResult
+    func pinLeadingAnchorTo(_ view: UIView? = nil, anchor: KeyPath<UIView, XAnchor> = \.leadingAnchor, greaterThanOrEqualTo constant: CGFloat) -> UIView {
+        guard let viewToPinTo = view ?? superview else { return self }
+        self.translatesAutoresizingMaskIntoConstraints = false
+        let constraint = self.leadingAnchor.constraint(greaterThanOrEqualTo: viewToPinTo[keyPath: anchor], constant: constant)
+        removeSimilarConstraints([constraint])
+        NSLayoutConstraint.activate([constraint])
+        return self
+    }
+    
+    @discardableResult
+    func pinTrailingAnchorTo(_ view: UIView? = nil, anchor: KeyPath<UIView, XAnchor> = \.trailingAnchor, greaterThanOrEqualTo constant: CGFloat) -> UIView {
+        guard let viewToPinTo = view ?? superview else { return self }
+        self.translatesAutoresizingMaskIntoConstraints = false
+        let constraint = self.trailingAnchor.constraint(greaterThanOrEqualTo: viewToPinTo[keyPath: anchor], constant: -constant)
+        removeSimilarConstraints([constraint])
+        NSLayoutConstraint.activate([constraint])
+        return self
+    }
+    
+    @discardableResult
+    func pinTopAnchorTo(_ view: UIView? = nil, anchor: KeyPath<UIView, YAnchor> = \.topAnchor, greaterThanOrEqualTo constant: CGFloat) -> UIView {
+        guard let viewToPinTo = view ?? superview else { return self }
+        self.translatesAutoresizingMaskIntoConstraints = false
+        let constraint = self.topAnchor.constraint(greaterThanOrEqualTo: viewToPinTo[keyPath: anchor], constant: constant)
+        removeSimilarConstraints([constraint])
+        NSLayoutConstraint.activate([constraint])
+        return self
+    }
+    
+    @discardableResult
+    func pinBottomAnchorTo(_ view: UIView? = nil, anchor: KeyPath<UIView, YAnchor> = \.bottomAnchor, greaterThanOrEqualTo constant: CGFloat) -> UIView {
+        guard let viewToPinTo = view ?? superview else { return self }
+        self.translatesAutoresizingMaskIntoConstraints = false
+        let constraint = self.bottomAnchor.constraint(greaterThanOrEqualTo: viewToPinTo[keyPath: anchor], constant: -constant)
+        removeSimilarConstraints([constraint])
+        NSLayoutConstraint.activate([constraint])
+        return self
+    }
+    
+    
+    // MARK: - Lesser Than Constraints
+    
+    @discardableResult
+    func pinLeadingAnchorTo(_ view: UIView? = nil, anchor: KeyPath<UIView, XAnchor> = \.leadingAnchor, lessThanOrEqualTo constant: CGFloat) -> UIView {
+        guard let viewToPinTo = view ?? superview else { return self }
+        self.translatesAutoresizingMaskIntoConstraints = false
+        let constraint = self.leadingAnchor.constraint(lessThanOrEqualTo: viewToPinTo[keyPath: anchor], constant: constant)
+        removeSimilarConstraints([constraint])
+        NSLayoutConstraint.activate([constraint])
+        return self
+    }
+    
+    @discardableResult
+    func pinTrailingAnchorTo(_ view: UIView? = nil, anchor: KeyPath<UIView, XAnchor> = \.trailingAnchor, lessThanOrEqualTo constant: CGFloat) -> UIView {
+        guard let viewToPinTo = view ?? superview else { return self }
+        self.translatesAutoresizingMaskIntoConstraints = false
+        let constraint = self.trailingAnchor.constraint(lessThanOrEqualTo: viewToPinTo[keyPath: anchor], constant: -constant)
+        removeSimilarConstraints([constraint])
+        NSLayoutConstraint.activate([constraint])
+        return self
+    }
+    
+    @discardableResult
+    func pinTopAnchorTo(_ view: UIView? = nil, anchor: KeyPath<UIView, YAnchor> = \.topAnchor, lessThanOrEqualTo constant: CGFloat) -> UIView {
+        guard let viewToPinTo = view ?? superview else { return self }
+        self.translatesAutoresizingMaskIntoConstraints = false
+        let constraint = self.topAnchor.constraint(lessThanOrEqualTo: viewToPinTo[keyPath: anchor], constant: constant)
+        removeSimilarConstraints([constraint])
+        NSLayoutConstraint.activate([constraint])
+        return self
+    }
+    
+    @discardableResult
+    func pinBottomAnchorTo(_ view: UIView? = nil, anchor: KeyPath<UIView, YAnchor> = \.bottomAnchor, lessThanOrEqualTo constant: CGFloat) -> UIView {
+        guard let viewToPinTo = view ?? superview else { return self }
+        self.translatesAutoresizingMaskIntoConstraints = false
+        let constraint = self.bottomAnchor.constraint(lessThanOrEqualTo: viewToPinTo[keyPath: anchor], constant: -constant)
+        removeSimilarConstraints([constraint])
+        NSLayoutConstraint.activate([constraint])
+        return self
+    }
+    
+    
+    // MARK: - Grouped Constraints
     
     @discardableResult
     func pinHorizontalAnchorsTo(_ view: UIView? = nil, leadingAnchorConstant: CGFloat, trailingAnchorConstant: CGFloat) -> UIView {
