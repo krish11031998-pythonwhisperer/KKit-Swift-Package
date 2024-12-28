@@ -34,7 +34,11 @@ public enum Animation {
     
     //MARK: Progress
     case lineProgress(frame: CGRect, roundedCorners: Bool = true, duration: CFTimeInterval = 0.3)
-    case circularProgress(from: CGFloat = 0, to: CGFloat, duration: CFTimeInterval = 0.33, delay: CFTimeInterval = 0)
+    case circularProgress(from: CGFloat = 0,
+                          to: CGFloat,
+                          duration: CFTimeInterval = 0.33,
+                          animation: CAMediaTimingFunctionName = .default,
+                          delay: CFTimeInterval = 0)
     
     //MARK: Misc
     case shakeUpDown(duration: CGFloat = 0.3)
@@ -98,13 +102,14 @@ public extension Animation {
             animation.toValue = to
             animation.duration = duration
             return animation
-		case .circularProgress(let from, let to, let duration, let delay):
+		case .circularProgress(let from, let to, let duration, let animationName, let delay):
 			let animation = CABasicAnimation(keyPath: "strokeEnd")
 			animation.fromValue = from
 			animation.toValue = to
 			animation.duration = duration
             animation.beginTime = CACurrentMediaTime() + delay
             animation.isRemovedOnCompletion = false
+            animation.timingFunction = .init(name: animationName)
             animation.fillMode = .forwards
 			return animation
         case .lineProgress(let frame, let rounded, let duration):
