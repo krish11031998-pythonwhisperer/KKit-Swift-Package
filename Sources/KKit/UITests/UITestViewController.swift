@@ -126,6 +126,10 @@ class UITestViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [unowned self] in
             self.reloadCollection()
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4)) { [unowned self] in
+            self.reloadUpdatedSections()
+        }
     }
     
     private func setupView() {
@@ -141,6 +145,10 @@ class UITestViewController: UIViewController {
         collectionView.reloadWithDynamicSection(sections: [setupSectionOne(), setupSectionTwo()])
     }
     
+    private func reloadUpdatedSections() {
+        collectionView.reloadWithDynamicSection(sections: [setupUpdatedSectionOne(), setupSectionTwo()])
+    }
+    
     private func setupSectionOne() -> DiffableCollectionSection {
         let symbols: [String] = ["square.and.arrow.up.on.square", "square.and.arrow.up.on.square.fill", "square.and.pencil.circle", "pencil.tip.crop.circle.badge.plus.fill", "sun.horizon.fill"]
         
@@ -149,6 +157,27 @@ class UITestViewController: UIViewController {
         let cells = models.map { DiffableCollectionItem<TestCellView>($0) }
         
         let layout = NSCollectionLayoutSection.singleColumnLayout(width: .fractionalWidth(1.0), height: .estimated(54), insets: .section(.init(vertical: 10, horizontal: 20)))
+            .addHeader()
+        
+        let header = CollectionSupplementaryView<SectionHeader>(.init(sectionTitle: "Test Section One"))
+        
+        let decorationItem = SectionDecoration()
+        
+        layout.decorationItems = [NSCollectionLayoutDecorationItem.background(elementKind: SectionDecoration.name)]
+        
+        let section = DiffableCollectionSection(0, cells: cells, header: header, decorationItem: decorationItem, sectionLayout: layout)
+        
+        return section
+    }
+    
+    private func setupUpdatedSectionOne() -> DiffableCollectionSection {
+        let symbols: [String] = ["square.and.arrow.up.on.square", "square.and.arrow.up.on.square.fill", "square.and.pencil", "pencil.tip.crop.circle.badge.plus.fill", "sun.horizon.fill"]
+        
+        let models: [TestCellView.Model] = symbols.map { .init(sfSymbol: $0) }
+        
+        let cells = models.map { DiffableCollectionItem<TestCellView>($0) }
+        
+        let layout = NSCollectionLayoutSection.gridLayout(itemSize: .init(widthDimension: .fractionalWidth(0.5), heightDimension: .absolute(100)), groupSpacing: .fixed(16), interGroupSpacing: 16)
             .addHeader()
         
         let header = CollectionSupplementaryView<SectionHeader>(.init(sectionTitle: "Test Section One"))
