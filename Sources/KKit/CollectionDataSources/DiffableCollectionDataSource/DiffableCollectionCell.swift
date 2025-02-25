@@ -159,9 +159,6 @@ public class DiffableCollectionItem<View: ConfigurableView>: DiffableCollectionC
     
     public func cell(cv: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         let cell = cv.dequeueReusableCell(withReuseIdentifier: cellName, for: indexPath)
-//        if cell.contentConfiguration != nil {
-//            cell.contentConfiguration = nil
-//        }
         cell.contentConfiguration = View.createContent(with: model)
         return cell
     }
