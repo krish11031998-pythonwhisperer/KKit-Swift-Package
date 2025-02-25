@@ -32,7 +32,14 @@ public enum DiffableCollectionCellItem: Hashable {
     case item(DiffableCollectionCellProvider)
     
     public static func == (lhs: DiffableCollectionCellItem, rhs: DiffableCollectionCellItem) -> Bool {
-        lhs.hashValue == rhs.hashValue
+        switch(lhs, rhs) {
+        case (.view(let providerOne), .view(let providerTwo)):
+            return providerOne.hashValue == providerTwo.hashValue
+        case (.item(let pOne), .item(let pTwo)):
+            return pOne.hashValue == pTwo.hashValue
+        default:
+            return false
+        }
     }
     
     public func hash(into hasher: inout Hasher) {
@@ -75,7 +82,8 @@ public class DiffableCollectionCell<Cell: ConfigurableCollectionCell>: DiffableC
     }
     
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(model.hashValue)
+        hasher.combine(Cell.cellName)
+        hasher.combine(model)
     }
     
     public static func == (lhs: DiffableCollectionCell<Cell>, rhs: DiffableCollectionCell<Cell>) -> Bool {
@@ -123,6 +131,7 @@ public class DiffableCollectionCellView<View: ConfigurableUIView>: DiffableColle
     }
     
     public func hash(into hasher: inout Hasher) {
+        hasher.combine(View.cellName)
         hasher.combine(model)
     }
     
@@ -150,9 +159,9 @@ public class DiffableCollectionItem<View: ConfigurableView>: DiffableCollectionC
     
     public func cell(cv: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         let cell = cv.dequeueReusableCell(withReuseIdentifier: cellName, for: indexPath)
-        if cell.contentConfiguration != nil {
-            cell.contentConfiguration = nil
-        }
+//        if cell.contentConfiguration != nil {
+//            cell.contentConfiguration = nil
+//        }
         cell.contentConfiguration = View.createContent(with: model)
         return cell
     }
@@ -163,7 +172,8 @@ public class DiffableCollectionItem<View: ConfigurableView>: DiffableCollectionC
     }
     
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(model.hashValue)
+        hasher.combine(View.viewName)
+        hasher.combine(model)
     }
     
     public static func == (lhs: DiffableCollectionItem<View>, rhs: DiffableCollectionItem<View>) -> Bool {
