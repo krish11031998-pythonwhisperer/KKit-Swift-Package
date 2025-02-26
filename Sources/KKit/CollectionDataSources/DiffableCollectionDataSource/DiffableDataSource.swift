@@ -73,7 +73,7 @@ public class DiffableDataSource: NSObject, UICollectionViewDelegate, UICollectio
         collectionView.delegate = self
         collectionView.prefetchDataSource = self
         
-        self.applySnapshot(animating: false, completion: completion)
+        self.applySnapshot(usingReloadData: true, animating: false, completion: completion)
     }
     
     private func setupCollectionViewLayout(newSections: [DiffableCollectionSection]? = nil) -> UICollectionViewCompositionalLayout {
@@ -92,7 +92,7 @@ public class DiffableDataSource: NSObject, UICollectionViewDelegate, UICollectio
         return layout
     }
     
-    private func  applySnapshot(animating: Bool = true, completion: Callback? = nil) {
+    private func  applySnapshot(usingReloadData: Bool = false, animating: Bool = true, completion: Callback? = nil) {
         guard let datasource else { return }
         var snapshot =  CollectionDiffableSnapshot()
 
@@ -104,13 +104,17 @@ public class DiffableDataSource: NSObject, UICollectionViewDelegate, UICollectio
                                  toSection: section.id)
         }
         
-        datasource.apply(snapshot, animatingDifferences: animating, completion: completion)
+        if usingReloadData {
+            datasource.applySnapshotUsingReloadData(snapshot, completion: completion)
+        } else {
+            datasource.apply(snapshot, animatingDifferences: animating, completion: completion)
+        }
     }
     
-    public func reloadSections(collection: UICollectionView, _ sections: [DiffableCollectionSection], completion: Callback? = nil) {
+    public func reloadSections(usingReloadData: Bool = false, collection: UICollectionView, _ sections: [DiffableCollectionSection], completion: Callback? = nil) {
         self.sections = sections
         registerCells(collectionView: collection)
-        applySnapshot(animating: true, completion: completion)
+        applySnapshot(usingReloadData: usingReloadData, animating: true, completion: completion)
         collection.layoutIfNeeded()
     }
     
