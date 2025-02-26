@@ -35,10 +35,10 @@ public class DiffableCollectionView: UICollectionView {
         dynamicDataSource?.reachedEnd
     }
     
-    public func reloadWithDynamicSection(sections: [DiffableCollectionSection], completion: Callback? = nil) {
+    public func reloadWithDynamicSection(sections: [DiffableCollectionSection], applySnapshotUsingReload: Bool = false, completion: Callback? = nil) {
         
         if let source = self.dynamicDataSource {
-            source.reloadSections(collection: self, sections, completion: completion)
+            source.reloadSections(usingReloadData: applySnapshotUsingReload, collection: self, sections, completion: completion)
             return
         }
         
