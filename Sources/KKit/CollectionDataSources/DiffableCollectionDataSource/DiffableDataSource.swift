@@ -111,11 +111,15 @@ public class DiffableDataSource: NSObject, UICollectionViewDelegate, UICollectio
         }
     }
     
-    public func reloadSections(usingReloadData: Bool = false, collection: UICollectionView, _ sections: [DiffableCollectionSection], completion: Callback? = nil) {
+    public func reloadSections(collection: UICollectionView, _ sections: [DiffableCollectionSection], usingReloadData: Bool = false, layoutIfNeeded: Bool = true, completion: Callback? = nil) {
         self.sections = sections
         registerCells(collectionView: collection)
-        applySnapshot(usingReloadData: usingReloadData, animating: true, completion: completion)
-        collection.layoutIfNeeded()
+        applySnapshot(usingReloadData: usingReloadData, animating: true) {
+            if layoutIfNeeded {
+                collection.layoutIfNeeded()
+            }
+            completion?()
+        }
     }
     
     public func reloadItems(_ item: DiffableCollectionCellProvider, section: Int, index: Int, alsoReload: Bool) {
