@@ -159,7 +159,13 @@ public class DiffableCollectionItem<View: ConfigurableView>: DiffableCollectionC
     
     public func cell(cv: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         let cell = cv.dequeueReusableCell(withReuseIdentifier: cellName, for: indexPath)
-        cell.contentConfiguration = View.createContent(with: model)
+        cell.configurationUpdateHandler = { [unowned self] cell, cellState in
+            cell.contentConfiguration = UIHostingConfiguration {
+                View(model: self.model)
+                    .environment(\.cellState, cellState)
+            }
+            .margins(.all, .zero)
+        }
         return cell
     }
     

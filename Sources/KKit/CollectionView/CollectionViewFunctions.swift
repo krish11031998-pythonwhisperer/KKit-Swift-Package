@@ -53,8 +53,8 @@ struct TextView: ConfigurableView {
     
     private let text: Model
     
-    init(text: Model) {
-        self.text = text
+    init(model: Model) {
+        self.text = model
     }
     
     var body: some View {
@@ -62,12 +62,6 @@ struct TextView: ConfigurableView {
             .font(.body)
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity, alignment: .leading)
-    }
-    
-    static func createContent(with model: String) -> any UIContentConfiguration {
-        UIHostingConfiguration {
-            TextView(text: model)
-        }
     }
     
     static var viewName: String { "TextView" }
