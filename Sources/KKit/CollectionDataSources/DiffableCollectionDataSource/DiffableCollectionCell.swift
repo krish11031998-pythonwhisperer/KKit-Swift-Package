@@ -159,7 +159,13 @@ public class DiffableCollectionItem<View: ConfigurableView>: DiffableCollectionC
     
     public func cell(cv: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         let cell = cv.dequeueReusableCell(withReuseIdentifier: cellName, for: indexPath)
-        cell.configurationUpdateHandler = { [unowned self] cell, cellState in
+        
+        if cell.configurationUpdateHandler != nil {
+            cell.configurationUpdateHandler = nil
+        }
+        
+        cell.configurationUpdateHandler = { [weak self] cell, cellState in
+            guard let self else { return }
             cell.contentConfiguration = UIHostingConfiguration {
                 View(model: self.model)
                     .environment(\.cellState, cellState)
@@ -170,8 +176,17 @@ public class DiffableCollectionItem<View: ConfigurableView>: DiffableCollectionC
     }
     
     public func didSelect(cv: UICollectionView, indexPath: IndexPath) {
-        guard let action = (model as? ActionProvider)?.action else { return }
-        action()
+        switch model {
+        case let actionProvider as ActionProvider:
+            actionProvider.action?()
+        case let actionProviderWithCell as ActionProviderWithCell:
+            guard let cell = cv.cellForItem(at: indexPath) else {
+                fatalError("NO Cell was found in this indexPath")
+            }
+            actionProviderWithCell.actionWithCell?(cell)
+        default:
+            break
+        }
     }
     
     public func hash(into hasher: inout Hasher) {

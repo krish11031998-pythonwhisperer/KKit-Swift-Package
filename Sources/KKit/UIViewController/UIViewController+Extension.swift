@@ -131,14 +131,27 @@ public extension UIViewController {
         navigationController?.tabBarController?.tabBar.frame.height ?? 0
     }
     
-    func pushTo(target: UIViewController, asSheet: Bool = false) {
+    func pushTo(target: UIViewController, withNavigation: Bool = true, asSheet: Bool = false, withZoomIn sourceView: UIView? = nil) {
         if let nav = navigationController, !asSheet {
             nav.pushViewController(target, animated: true)
         } else {
-            self.presentView(style: .sheet(), target: target.withNavigationController(), onDimissal: nil)
+            if #available(iOS 18.0, *), let sourceView {
+                let presentingVC: UIViewController
+                if withNavigation {
+                    presentingVC = target.withNavigationController()
+                } else {
+                    presentingVC = target
+                }
+                presentingVC.preferredTransition = .zoom(sourceViewProvider: { context in
+                    sourceView
+                })
+                self.present(presentingVC, animated: true)
+            } else {
+                self.presentView(style: .sheet(), target: target.withNavigationController(), onDimissal: nil)
+            }
         }
     }
-    
+   
     var compressedSize : CGSize {
         let height = view.compressedSize.height.boundTo(lower: 200, higher: .totalHeight) - (view.safeAreaInsets.top + view.safeAreaInsets.bottom)
         let size: CGSize = .init(width: .totalWidth, height: height)
@@ -157,6 +170,16 @@ public extension UIViewController {
         target.transitioningDelegate = presenter
         target.modalPresentationStyle = .custom
         present(target, animated: true)
+    }
+    
+    func customDetentPresentation(presentedOn: UIViewController, size: ((UIViewController) -> CGFloat)?) {
+        self.loadViewIfNeeded()
+        self.view.layoutIfNeeded()
+        let height = size?(self) ?? self.view.bounds.height//.compressedSize.height
+        self.sheetPresentationController?.detents = [.custom(resolver: { context in
+            height
+        })]
+        presentedOn.present(self, animated: true)
     }
     
     var nestedViewController: UIViewController {

@@ -77,7 +77,7 @@ extension String: RenderableText {
 		
 		return .init(string: self, attributes: attributes)
 	}
-	
+    
     public func render(target: Any?) {
 		switch target {
 		case let button as UIButton:
