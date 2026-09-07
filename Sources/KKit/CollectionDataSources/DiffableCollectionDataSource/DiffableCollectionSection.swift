@@ -32,10 +32,15 @@ public class DiffableCollectionSection: Hashable, Identifiable {
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+        cells.forEach { hasher.combine($0) }
+        header.map { hasher.combine($0) }
+        footer.map { hasher.combine($0) }
+        decorationItem.map { hasher.combine($0) }
+        hasher.combine(sectionLayout)
     }
     
     public static func == (lhs: DiffableCollectionSection, rhs: DiffableCollectionSection) -> Bool {
-        lhs.id == rhs.id
+        lhs.hashValue == rhs.hashValue
     }
     
     public func registerCells(collectionView: UICollectionView, cellRegistrationsMap: inout Set<String>) {
