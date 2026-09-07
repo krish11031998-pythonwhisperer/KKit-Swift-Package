@@ -8,8 +8,8 @@
 import UIKit
 
 public extension NSCollectionLayoutSection {
-    static func orthogonalGrid(gridWidth width: NSLayoutDimension, gridHeight height: NSLayoutDimension, spacing: CGFloat, contentInsets: NSDirectionalEdgeInsets) -> NSCollectionLayoutSection {
-        let group = NSCollectionLayoutGroup.custom(layoutSize: .init(widthDimension: .fractionalWidth(0.92), heightDimension: .fractionalWidth(1.08))) { env in
+    static func orthogonalGrid(gridWidth width: NSCollectionLayoutDimension, gridHeight height: NSCollectionLayoutDimension, spacing: CGFloat, contentInsets: NSDirectionalEdgeInsets) -> NSCollectionLayoutSection {
+        let group = NSCollectionLayoutGroup.custom(layoutSize: .init(widthDimension: width, heightDimension: height)) { env in
             let containerWidth = (env.container.effectiveContentSize.width - spacing).half
             let contentHeight = (env.container.effectiveContentSize.height - spacing).half
             let size = CGSize(width: containerWidth, height: contentHeight)
