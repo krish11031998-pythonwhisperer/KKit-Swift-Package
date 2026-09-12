@@ -152,8 +152,10 @@ public class DiffableDataSource: NSObject, UICollectionViewDelegate, UICollectio
     }
     
     private func registerCells(collectionView: UICollectionView) {
-        sections.forEach { section in
-            section.registerCells(collectionView: collectionView, cellRegistrationsMap: &cellRegistrations)
+        sections.enumerated().forEach { section in
+            section.element.registerCells(collectionView: collectionView, cellRegistrationsMap: &cellRegistrations)
+            section.element.header?.registerReusableView(collectionView, kind: UICollectionView.elementKindSectionHeader, indexPath: .init(item: 0, section: section.offset))
+            section.element.footer?.registerReusableView(collectionView, kind: UICollectionView.elementKindSectionFooter, indexPath: .init(item: 0, section: section.offset))
         }
     }
     
