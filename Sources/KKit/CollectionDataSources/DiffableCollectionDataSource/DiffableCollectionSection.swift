@@ -50,7 +50,7 @@ open class DiffableCollectionSection: Hashable, Identifiable {
     }
     
     // This is for the subclasses to override.
-    public func sectionLayout(_ env: any NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+    open func sectionLayout(_ env: any NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         sectionLayout
     }
 }
