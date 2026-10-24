@@ -80,7 +80,7 @@ public class DiffableDataSource: NSObject, UICollectionViewDelegate, UICollectio
         let layout =  UICollectionViewCompositionalLayout { [weak self] sectionId, env in
             guard let self else { return nil }
             let section = (newSections ?? sections)[sectionId]
-            return section.sectionLayout
+            return section.sectionLayout(env)
         }
         
         sections.forEach { section in

@@ -48,6 +48,11 @@ public class DiffableCollectionSection: Hashable, Identifiable {
             cell.register(cv: collectionView, registration: &cellRegistrationsMap)
         }
     }
+    
+    // This is for the subclasses to override.
+    public func sectionLayout(_ env: any NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+        sectionLayout
+    }
 }
 
 
