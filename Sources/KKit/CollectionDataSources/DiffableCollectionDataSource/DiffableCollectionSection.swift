@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - DynamicCollectionSection
 
-public class DiffableCollectionSection: Hashable, Identifiable {
+open class DiffableCollectionSection: Hashable, Identifiable {
     
     public var id: Int
     var cells: [DiffableCollectionCellProvider]
